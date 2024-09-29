@@ -2,11 +2,15 @@ package main
 
 import (
 	"log"
-	stock "shop/kitex_gen/shop/stock/stockservice"
+	"net"
+	"shop/kitex_gen/shop/stock/stockservice"
+
+	"github.com/cloudwego/kitex/server"
 )
 
 func main() {
-	svr := stock.NewServer(new(StockServiceImpl))
+	addr, _ := net.ResolveTCPAddr("tcp", "127.0.0.1:8890")
+	svr := stockservice.NewServer(new(StockServiceImpl), server.WithServiceAddr(addr))
 
 	err := svr.Run()
 
